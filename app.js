@@ -20,6 +20,9 @@ const firebaseConfig = {
   measurementId: "G-Q1TYJ0XSRC"
 };
 
+
+
+
   const adminPassword = "allah";
 
   document.getElementById("accessCore").addEventListener("click", () => {
@@ -633,6 +636,36 @@ document.getElementById('addItemBtn').addEventListener('click', () => {
   alert('Add Item button clicked');
   // Your logic here
 });
+
+
+
+const categoryIcons = {
+  'ice cream': 'bi-snow',         // no ice cream icon, snow is closest cold/frozen vibe
+  'cold drinks': 'bi-cup-straw',  // classic cold drink icon
+  'hot drinks': 'bi-cup-hot',     // obvious hot drink icon
+  desserts: 'bi-cupcake'          // actual cupcake icon for desserts
+};
+
+landing.innerHTML = '';  // clear whatever is there
+
+Object.entries(categoryIcons).forEach(([category, iconClass]) => {
+  const div = document.createElement('div');
+  div.style.fontSize = '2rem';
+  div.style.margin = '10px 0';
+  div.style.cursor = 'pointer';
+  div.style.display = 'flex';
+  div.style.alignItems = 'center';
+
+  div.innerHTML = `<i class="bi ${iconClass}" style="margin-right: 10px;"></i> ${category}`;
+  landing.appendChild(div);
+});
+
+
+
+
+
+// 1. Grab the color picker element
+
 
 
 
