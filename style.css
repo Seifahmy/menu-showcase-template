@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 :root {
-  --main-color: #4fc3f7; /* Light blue */
-  --main-color-light: #a7d8ff;
-  --main-color-dark: #3a9bdc;
+  --main-color: #ffcd7c;
+  --main-color-light: #ffe8c4;
+  --main-color-dark: #e28b00;
+  --lux-shadow: 0 4px 30px rgba(79, 195, 247, 0.2);
 }
 
 * {
-  margin: 0; padding: 0; box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -20,7 +23,6 @@ body {
   color: #eee;
   overflow-x: hidden;
   backdrop-filter: blur(13px);
-  
 }
 
 a {
@@ -40,39 +42,31 @@ a {
 
 #landing {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
   gap: 40px;
-  flex-wrap: wrap;
-  overflow: hidden;
 }
 
 .section-card {
-  background: rgba(0, 0, 0, .7);
-  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, .75);
+  backdrop-filter: blur(25px);
   width: 290px;
   height: 60px;
   border-radius: 20px;
-  /* box-shadow:
-    0 0 20px rgba(56, 232, 255, 0.05),
-    inset 5px 5px 15px #96ffad,
-    inset -5px -5px 15px #2f2f2f; */
+  box-shadow: var(--lux-shadow), inset 0 0 5px #ffffff0a;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   user-select: none;
-/* text-shadow: 0px 0px 5px rgba(66, 71, 95, 0.822); */
 }
 
 .section-card:hover {
-  transform: translateY(-15px);
-  box-shadow:
-    0 0 30px var(--main-color),
-    inset 5px 5px 15px #2a2a2a,
-    inset -5px -5px 15px #3c3c3c;
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: 0 0 35px var(--main-color);
 }
 
 .section-card h2 {
@@ -80,27 +74,20 @@ a {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
-  -webkit-text-stroke: 1px rgb(157, 255, 209);
-  color: transparent;
-  
 
+  color: transparent;
 }
 
 .page {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   min-height: 100vh;
-  
- 
   padding: 40px 20px;
   overflow-y: auto;
   transform-origin: top;
   animation-fill-mode: forwards;
-}
-
-.hidden {
-  display: none;
 }
 
 .back-btn {
@@ -118,14 +105,12 @@ a {
 }
 
 .dropdown {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(20px);
   margin-bottom: 20px;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow:
-    0 0 10px var(--main-color-light);
-  user-select: none;
+  box-shadow: 0 0 20px var(--main-color-light);
 }
 
 .dropdown-header {
@@ -141,11 +126,7 @@ a {
 }
 
 .dropdown-header:hover {
-  background: var(--main-color-light);
-  background: var(--main-color-light);
-  background: var(--main-color-light);
-  background: var(--main-color-light);
-  background: #4fc3f720; /* 20% opacity */
+  background: #4fc3f730;
 }
 
 .arrow {
@@ -165,7 +146,7 @@ a {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.07);
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--main-color-light);
 }
@@ -179,6 +160,7 @@ a {
   border-bottom: 1px solid var(--main-color-light);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-weight: 500;
   color: #ddd;
   cursor: default;
@@ -191,7 +173,7 @@ a {
 
 .item:hover {
   background: var(--main-color-light);
-  color: #fff;
+  color: #111;
 }
 
 .page-title {
@@ -202,33 +184,38 @@ a {
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%) scale(0.8); opacity: 0; }
-  to { transform: translateX(0) scale(1); opacity: 1; }
+  from {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes slideOut {
-  from { transform: translateX(0) scale(1); opacity: 1; }
-  to { transform: translateX(-100%) scale(0.8); opacity: 0; }
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%) scale(0.8);
+    opacity: 0;
+  }
 }
 
-/* Place inside your existing <style> block */
-.item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .item-name {
-  /* keeps default look, or adjust if you want */
   font-size: 1em;
 }
+
 .item-price {
   font-size: 1.4em;
   font-weight: bold;
   font-style: italic;
-  color: rgb(194, 255, 194);
+  color: var(--main-color);
 }
 
-/* Edit/Delete buttons */
 .btn-edit, .btn-delete {
   background: transparent;
   border: none;
@@ -237,31 +224,32 @@ a {
   font-size: 18px;
   margin-left: 8px;
   user-select: none;
-  transition: color .2s ease;
+  transition: color 0.2s ease;
 }
-.btn-edit:hover { color: var(--main-color-light); }
-.btn-delete:hover { color: #f44336; } /* Red for delete, keep it visible */
-#landing {
-  display: flex;
-  flex-direction: column; /* stack vertically */
-  justify-content: center; /* center vertically */
-  align-items: center; /* center horizontally */
-  height: 100vh; /* full viewport height for vertical centering */
-  gap: 40px; /* space between cards */
+
+.btn-edit:hover {
+  color: var(--main-color-light);
 }
+
+.btn-delete:hover {
+  color: #f44336;
+}
+
 .three-dot-menu {
   position: relative;
   display: inline-block;
 }
+
 .three-dot-btn {
   background: none;
   border: none;
-  color: #ff8c00;
+  color: var(--main-color);
   font-size: 20px;
   cursor: pointer;
   user-select: none;
   padding: 0 5px;
 }
+
 .three-dot-dropdown {
   position: absolute;
   top: 24px;
@@ -272,21 +260,426 @@ a {
   z-index: 100;
   min-width: 80px;
 }
+
 .three-dot-dropdown.hidden {
   display: none;
 }
+
 .three-dot-option {
   padding: 8px 12px;
   cursor: pointer;
   color: #eee;
+  transition: background 0.2s ease;
 }
+
 .three-dot-option:hover {
   background: #555;
 }
-i{
+
+i {
   color: var(--main-color);
 }
 
-.admin-only{
+.admin-only {
   background-color: none;
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Playfair+Display:wght@600&display=swap');
+
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #0f0f0f, #1a1a1a);
+  color: #eee;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 50px auto;
+  padding: 0 30px;
+  position: relative;
+  z-index: 1;
+}
+
+#landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 60px;
+}
+
+.section-card {
+  background: var(--glass);
+  backdrop-filter: blur(35px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  width: 320px;
+  height: 70px;
+  box-shadow: 0 0 20px rgba(64, 224, 208, 0.4), 0 12px 40px var(--shadow-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 120202020;
+}
+
+.section-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 26px;
+  background: linear-gradient(45deg, var(--main-color), var(--highlight-color));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.section-card:hover::before {
+  opacity: 0.3;
+}
+
+.section-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 60px var(--main-color), 0 0 30px var(--highlight-color);
+}
+
+.section-card h2 {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: var(--highlight-color);
+  text-shadow: 0 0 6px var(--main-color);
+}
+
+.page {
+  padding: 50px 40px;
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+.page-title {
+  font-size: 40px;
+  font-family: 'Playfair Display', serif;
+  color: var(--highlight-color);
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px var(--main-color);
+}
+
+.dropdown {
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  backdrop-filter: blur(30px);
+  transition: all 0.3s ease;
+  
+}
+.category-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.category-container i {
+  font-size: 24px;
+  margin-right: 10px;
+  color: #333; /* or whatever you want */
+}
+
+
+.dropdown-header {
+  padding: 22px 30px;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--main-color);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-header:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.arrow {
+  border: solid var(--main-color);
+  border-width: 0 4px 4px 0;
+  display: inline-block;
+  padding: 6px;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.arrow.down {
+  transform: rotate(135deg);
+}
+
+.dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-content.open {
+  max-height: 500px;
+}
+
+.item {
+  padding: 20px 36px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  color: #eee;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: scale(1.02);
+}
+
+.item-name {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.item-price {
+  font-size: 1.6em;
+  font-weight: bold;
+  font-style: italic;
+  color: var(--highlight-color);
+  text-shadow: 0 0 3px var(--main-color);
+}
+
+.btn-edit, .btn-delete {
+  background: none;
+  border: none;
+  color: var(--main-color);
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 10px;
+  transition: color 0.2s ease;
+}
+
+.btn-edit:hover {
+  color: var(--highlight-color);
+}
+
+.btn-delete:hover {
+  color: #f44336;
+}
+
+.three-dot-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.three-dot-dropdown {
+  background: #111;
+  border: 1px solid #444;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 30px;
+  right: 0;
+  z-index: 10;
+}
+
+.three-dot-option {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: #eee;
+  transition: background 0.2s ease;
+}
+
+.three-dot-option:hover {
+  background: #333;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Gold shimmer animation */
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.section-card h2,
+.page-title {
+  background: linear-gradient(120deg, #ffd700, #fff5c3, #ffd700);
+  background-size: 300% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Magnetic hover effect */
+.section-card:hover {
+  transform: scale(1.1) rotate(-0.3deg) translateY(-3px);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Scrollbar refinement */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#ffd700, #daa520);
+  border-radius: 10px;
+  border: 2px solid #0f0f0f;
+}
+
+/* Particle background layer */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('https://cdn.jsdelivr.net/gh/JulianLaval/canvas-particle-network/particles.png');
+  opacity: 0.06;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Soft hover feedback */
+.item:hover {
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+  border-left: 4px solid var(--highlight-color);
+}
+
+/* Neon glow outline on focus (for buttons or inputs) */
+button:focus, .btn-edit:focus, .btn-delete:focus {
+  outline: 2px solid var(--main-color);
+  box-shadow: 0 0 8px var(--main-color);
+}
+
+.section-card {
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-card::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%);
+  transform: rotate(25deg);
+  pointer-events: none;
+}
+.section-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.3s;
+  height: 50px;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.section-card:hover {
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.15),
+              0 0 45px rgba(255, 215, 0, 0.10);
+}
+.page-title::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--highlight-color), #ffd700);
+  animation: lineGrow 1.5s ease forwards;
+  margin-top: 0.3rem;
+}
+
+@keyframes lineGrow {
+  to {
+    width: 100px;
+  }
+}
+.loading-glow {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(270deg, #ffd700, #fff, #ffd700);
+  background-size: 400% 100%;
+  animation: glowSlide 2s infinite linear;
+}
+
+@keyframes glowSlide {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
+.item-price{
+  font-size: 1.2em;
+}
+
+.not-visible {
+  display: none;
+}
+
+#menuPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  background: #22222256;
+  backdrop-filter: blur(
+    10px
+  );
+  color: #fff;
+  padding:180px;
+  border-radius: 10px;
+  z-index: 9999;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+}
+
+#menuPopup.not-visible {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.menu-content{
+  display: flex;
+  flex-direction: column;
 }
