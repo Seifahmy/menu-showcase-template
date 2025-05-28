@@ -12,17 +12,95 @@
 <style>
  
 </style>
-<button style="z-index: 12010022;" id="accessCore">Access Core</button>
-<header style="position: fixed; width: 100vw;">
-  <h1 style="text-align: center;"><img style="width: 230px; height: 140px;" src="logotwo.png" alt=""></h1>
-</header>
+<i id="accessCore" class="bi bi-people topi"></i> <i id="settingsIcon" class="bi bi-gear-wide-connected topi" style="cursor:pointer;"></i> 
+<header style="position: fixed; width: 100vw;"> 
+  <h1 style="text-align: center;"><img style="width: 230px; height: 240px;" src="125.png" alt=""> </h1> 
+</header> 
 </head>
 <body>
 <div id="notif" class="notif hidden"></div>
 
+<div id="menuPopup" class="not-visible">
+  <div class="popup-content">
+    <label for="colorPicker" style="color:#fff;">Change Color</label>
+<input type="color" id="colorPicker" value="#3498db" />
 
+   <button style="z-index: 12010022; background-color: lightcoral; padding: 7px 22px; border-radius: 20px; color: rgb(22, 22, 22); font-style: italic; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" id="accessCore"><i style="color: #222;" class="bi bi-person-circle"></i>  Admin Login</button> 
+  </div>
+</div>
+
+<script>
+  // 1. Grab the color picker element
+const colorPicker = document.getElementById('colorPicker');
+
+// 2. Your admin flag - SET THIS FROM YOUR AUTH LOGIC
+let isAdmin = false; // Replace this later with actual admin check
+
+// 3. On page load, get the saved color from Firebase and apply it
+firebase.database().ref('settings/mainColor').once('value')
+  .then(snapshot => {
+    const savedColor = snapshot.val();
+    if (savedColor) {
+      document.documentElement.style.setProperty('--main-color', savedColor);
+      colorPicker.value = savedColor;
+    }
+  })
+  .catch(err => console.error('Failed to load saved color:', err));
+
+// 4. Listen to color picker input changes
+colorPicker.addEventListener('input', (e) => {
+  const newColor = e.target.value;
+  
+  // Apply the color locally no matter what
+  document.documentElement.style.setProperty('--main-color', newColor);
+
+  // If user is admin, update Firebase so all users get this color next time
+  if (isAdmin) {
+    firebase.database().ref('settings/mainColor').set(newColor)
+      .catch(err => console.error('DB update failed:', err));
+  }
+});
+
+</script>
+<script>
+
+
+colorPicker.addEventListener('input', (e) => {
+  const newColor = e.target.value;
+  document.documentElement.style.setProperty('--main-color', newColor);
+});
+
+const icon = document.getElementById('settingsIcon');
+const popup = document.getElementById('menuPopup');
+
+icon.addEventListener('click', () => {
+  popup.classList.toggle('not-visible');
+});
+
+
+document.addEventListener('click', (e) => {
+  const isClickInside = popup.contains(e.target) || icon.contains(e.target);
+  if (!isClickInside && !popup.classList.contains('not-visible')) {
+    popup.classList.add('not-visible');
+  }
+});
+
+
+</script>
 <style>
 
+  /* header{
+ 
+  }
+  .bi-gear-wide-connected{
+    font-size: 1.3em;
+  text-align: right;
+  position: fixed;
+  } */
+.topi{
+  font-size: 1.7em;
+  left: 30px;
+}
 .notif {
   position: fixed;
   top: 20px;
@@ -170,7 +248,8 @@ button:hover {
 
   <!-- Landing page with major categories -->
   <div id="landing" class="page">
-    
+    <i class="bi bi-dessert"></i>
+
   </div>
 
   <!-- Subcategories page -->
@@ -181,14 +260,120 @@ button:hover {
   
 </div>
 
-<script type="module" src="app.js"></script>
 
-<script>
 
 
   
 </script>
+<canvas id="particle-canvas"></canvas>
 
- 
+<script>
+
+
+(() => {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let width, height, dpr;
+  let particles = [];
+  const PARTICLE_COUNT = 80;
+
+  // Get main color from CSS variable and convert to rgba base for opacity later
+  function getMainColorRGBA(alpha = 1) {
+    const style = getComputedStyle(document.documentElement);
+    const color = style.getPropertyValue('--main-color').trim();
+
+    // Convert hex or rgb to rgba with alpha param
+    if(color.startsWith('#')) {
+      // Convert hex to rgb
+      const bigint = parseInt(color.slice(1), 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+    else if(color.startsWith('rgb')) {
+      // already rgb or rgba, just replace alpha
+      return color.replace(/rgba?\(([^)]+)\)/, (_, inside) => {
+        const parts = inside.split(',');
+        return `rgba(${parts[0]},${parts[1]},${parts[2]},${alpha})`;
+      });
+    }
+    return `rgba(52,152,219,${alpha})`; // fallback blue
+  }
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+  }
+
+  function createParticles() {
+    particles = [];
+    for(let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.4,
+        speedY: (Math.random() - 0.5) * 0.4,
+        opacity: Math.random() * 0.8 + 0.2
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    const baseColor = getMainColorRGBA();
+    particles.forEach(p => {
+      p.x += p.speedX;
+      p.y += p.speedY;
+
+      if(p.x > width) p.x = 0;
+      if(p.x < 0) p.x = width;
+      if(p.y > height) p.y = 0;
+      if(p.y < 0) p.y = height;
+
+      // Create gradient glow based on main color
+      let gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
+      gradient.addColorStop(0, getMainColorRGBA(p.opacity));
+      gradient.addColorStop(1, getMainColorRGBA(0));
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  // Watch for main color changes and update particles accordingly
+  const observer = new MutationObserver(() => {
+    // Just trigger redraw with updated colors
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+
+  window.addEventListener('resize', () => {
+    resize();
+    createParticles();
+  });
+
+  resize();
+  createParticles();
+  draw();
+
+})();
+</script>
+ <script type="module" src="app.js">
+  
+ </script>
+
+
 </body>
 </html>
